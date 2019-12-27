@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import { increment, decrement } from '../actions'
 
-const App = () => (
-  <Counter></Counter>
-)
-
-class Counter extends Component {
+class App extends Component {
   constructor(props) {
     super(props)
     this.state = { count: 0 }
   }
-//Clickした時、１プラスされる
-  handlePlusButton = () => {
-    this.setState({ count: this.state.count + 1 })
-  }
-//Clickした時、−１引かれる計算
-  handleMinusButton = () => {
-    this.setState({ count: this.state.count - 1 })
-  }
-
   render() {
+    const props = this.props
+
     return (
       <React.Fragment>
-        <div>counter: {this.state.count}</div>
-        <button onClick={this.handlePlusButton}>+1</button>
-        <button onClick={this.handleMinusButton}>-1</button>
+        <div>counter: { props.value }</div>
+        <button onClick={props.increment}>+1</button>
+        <button onClick={props.decrement}>-1</button>
       </React.Fragment>
     )
   }
 }
 
-export default App;
+const mapStateToProps = state => ({ value: state.count.value })
+// const mapDispatchToProps = dispatch => ({
+//   increment: () => dispatch(increment()),
+//   decrement: () => dispatch(decrement())
+// })
+
+const mapDispatchToProps = ({ increment, decrement })
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
